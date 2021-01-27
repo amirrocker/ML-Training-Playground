@@ -1,0 +1,24 @@
+{
+	"id":"1234",
+	"createdAt":"2020-04-18",
+	"trainings":[
+		{
+			"id":"1",
+			"env":"env1",
+			"file":"file1",
+			"modelParams": {
+				"model":"model1",
+				"optimizer":"optimizer1",
+				"loss":"loss1"
+			},
+			"log":{
+				"log":"log1"
+			},
+			"hyperparams":{
+				"epochs":"epochs1",
+				"learningRate":"learningRate1"
+			}
+		}
+	]
+
+}
