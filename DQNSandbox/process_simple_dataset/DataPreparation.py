@@ -307,6 +307,79 @@ print(housing_cat.head(10))
 # let's see whether we can convert the category to numbers
 housing_cat_encoded, housing_categories = housing_cat.factorize()
 
-print("result of factorize:")
+print("result last ten of factorize:")
 print(housing_cat_encoded[:10]) # show last ten elems
+
+'''
+A challenge when dealing with categorical attributes is that a factorize or a quantification does not 
+reflect its correlations to each other. 
+Given our categorical values as housing_categories:
+'''
+print("categorical attributes: ")
+print(housing_categories)
+
+'''
+an algorithm will have trouble quantifying the different values.
+A value at 1 is closer to 4, than 2 to 4. (given the list starts at 0 ) 
+'<1H OCEAN', 'NEAR OCEAN', 'INLAND', 'NEAR BAY', 'ISLAND'
+To get around a OneHot-Encoding is used where a binary attribute is used per category.
+
+'''
+
+from sklearn.preprocessing import OneHotEncoder
+
+encoder = OneHotEncoder()
+housing_cat_1hot_encoded = encoder.fit_transform(housing_cat_encoded.reshape(-1, 1)) # remember housing_cat_encoded from line 308 :)
+# now lets look at the result:
+print("housing_cat_1hot_encoded: ")
+print(housing_cat_1hot_encoded.toarray())
+print("typeof housing_cat_1hot_encoded: ")
+print(type(housing_cat_1hot_encoded))
+
+'''
+Note the encoder fit_transform function requires a 2D-Array. But since housing_cat_encoded is only a 1D array the 
+need to reshape the array. And result is a sparse matrix no numpy array.
+the array form shows the use of OneHotEncoding quite well. 
+to get the above processing in one step sklearn offers a CategoricalEncoder class. It is at this point not yet 
+part of sklearn but available on Github - PR #9151
+'''
+# TODO include the PR - or use a ColumnTransformer as suggested by #9012
+# https://github.com/scikit-learn/scikit-learn/pull/9012
+# TODO and also
+# https://github.com/scikit-learn/scikit-learn/pull/8793
+
+'''
+We came across Pipeline code in sklearn so its time to look at some transformers of our own.
+sklearn offers a divers set of transformers but sometimes we do need our own:
+scikit learn using Duck Typing all that needs to be done is to define a class and implement
+three methods to conform to sklearn api.
+If we extend TransformerMixin the last of the three methods is handled automatically.
+We could use BaseEstimator as another Super class and get more methods like get_params and set_params.  
+'''
+# TODO look up DuckTyping vs. inheritance
+
+from sklearn.base import BaseEstimator, TransformerMixin
+
+rooms_ix, bedrooms_ix, population_ix, household_ix = 3, 4, 5, 6
+
+class CombinedAttributesAdder(BaseEstimator, TransformerMixin):
+    def __init__(self, add_bed_rooms_per_room=True): # make sure to not pass *args or **kargs - TODO look up **kargs
+        self.add_bedroom_per_room = add_bed_rooms_per_room
+    def fit(self, X, y=None):
+        return self # since we do not train anything simply return
+    def transform(self, X, y=None):
+        rooms_per_household = X[:, rooms_ix]
+        # this is where the meat is on the bone ;)
+        population_per_household = X[:, population_ix] / X[:, household_ix]
+        print("calculated population_per_household: ")
+        print(population_per_household)
+
+
+
+
+
+
+
+
+
 
