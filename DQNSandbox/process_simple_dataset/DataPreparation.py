@@ -372,7 +372,7 @@ class CombinedAttributesAdder(BaseEstimator, TransformerMixin):
         # this is where the meat is on the bone ;)
         population_per_household = X[:, population_ix] / X[:, household_ix]
         print("calculated population_per_household: ")
-        print(population_per_household)
+        # print(population_per_household)
 
         if self.add_bedroom_per_room:
             bedrooms_per_room = X[:, bedrooms_ix] / X[:, rooms_ix]
@@ -412,6 +412,48 @@ attribute_adder = CombinedAttributesAdder(add_bed_rooms_per_room=False)
 housing_extra_attributes = attribute_adder.transform(housing.values)
 print("combined attributes: ")
 print(housing_extra_attributes)
+
+'''
+Scaling of attributes:
+important transforms include scaling. most ml algorithms do not play well with numeric values with differejnt scales.
+Look at the data for housing - the numbers of rooms per household quite differ from median_income. Any algorithm 
+would have its difficulties learning from this data set. Note that we need no scaling of the target attributes.
+
+there are two default scaling methods - min-max scaling and standardising.
+min-max scaling aka normalising = scale all values from 0 to 1 
+standardising =  
+'''
+
+from sklearn.pipeline import Pipeline
+from sklearn.preprocessing import StandardScaler
+
+num_pipeline = Pipeline(
+    [
+        ('imputer', SimpleImputer(strategy="median")), # remember the simple imputer from above? replacing missing values
+        ('attributes_adder', CombinedAttributesAdder()),
+        ('std_scaler', StandardScaler())
+    ]
+)
+num_pipeline.fit_transform(housing_num_only)
+print("housing_num_only: ")
+print(housing_num_only)
+print(housing_num_only.columns)
+
+'''
+Index(['longitude', 'latitude', 'housing_median_age', 'total_rooms',
+       'total_bedrooms', 'population', 'households', 'median_income',
+       'income_cat'],
+'''
+# housing_num_only.plot(kind="scatter", x="median_income", y="total_bedrooms")
+# housing_num_only.boxplot("median_income")
+# housing_num_only.hist("median_income")
+# plt.show()
+
+''' 
+A short excourse into Matplotlib
+
+'''
+
 
 
 
