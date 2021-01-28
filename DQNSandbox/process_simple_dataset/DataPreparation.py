@@ -451,8 +451,14 @@ Index(['longitude', 'latitude', 'housing_median_age', 'total_rooms',
 
 ''' 
 A short excourse into Matplotlib
-
 '''
+fig = plt.figure()
+axis = fig.add_subplot(111) # 111 = rows - cols - num
+axis.plot(housing_num_only["income_cat"], housing_num_only["median_income"], color="lightblue", linewidth=3)
+
+axis.scatter(housing_num_only["income_cat"], housing_num_only["median_income"], color="lightblue", marker="^")
+
+plt.show()
 
 
 
