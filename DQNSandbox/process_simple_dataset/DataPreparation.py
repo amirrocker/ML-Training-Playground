@@ -374,9 +374,44 @@ class CombinedAttributesAdder(BaseEstimator, TransformerMixin):
         print("calculated population_per_household: ")
         print(population_per_household)
 
+        if self.add_bedroom_per_room:
+            bedrooms_per_room = X[:, bedrooms_ix] / X[:, rooms_ix]
 
+            '''
+            From the documentation of CClass - AxisConcatenator in numpy/libs/index_tricks.py
+            
+               Translates slice objects to concatenation along the second axis.
 
+               This is short-hand for ``np.r_['-1,2,0', index expression]``, which is
+               useful because of its common occurrence. In particular, arrays will be
+               stacked along their last axis after being upgraded to at least 2-D with
+               1's post-pended to the shape (column vectors made out of 1-D arrays).
 
+               See Also
+               --------
+               column_stack : Stack 1-D arrays as columns into a 2-D array.
+               r_ : For more detailed documentation.
+
+               Examples
+               --------
+               >>> np.c_[np.array([1,2,3]), np.array([4,5,6])]
+               array([[1, 4],
+                      [2, 5],
+                      [3, 6]])
+               >>> np.c_[np.array([[1,2,3]]), 0, 0, np.array([[4,5,6]])]
+               array([[1, 2, 3, ..., 4, 5, 6]])
+
+            '''
+            return np.c_[X, rooms_per_household, population_per_household, bedrooms_per_room]
+        else:
+            return np.c_[X, rooms_per_household, population_per_household]
+
+# now try out the new class:
+
+attribute_adder = CombinedAttributesAdder(add_bed_rooms_per_room=False)
+housing_extra_attributes = attribute_adder.transform(housing.values)
+print("combined attributes: ")
+print(housing_extra_attributes)
 
 
 
