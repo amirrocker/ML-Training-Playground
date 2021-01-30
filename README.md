@@ -3,12 +3,14 @@ learning ground and play sandbox for Deep Q Learning models
 and ml. 
 This is a beginners playground to try stuff and play around with.
 There is no serious project but simply a number of files that have 
-been adding up over time. 
-I will try to enforce order in this chaos over time.
+been adding up over time as I have been reading books and tutorials on the web.
+
+This repo is not structured, nor clean, 
+Therefor I will try to enforce order in this chaos over time.
 
 For anybody who may see this and feels like looking into these topics
 here are some of the sources that I have found very helpful on my short 
-journey so far :)
+journey so far. 
 
 sources:
 
@@ -19,5 +21,8 @@ ff.
 Deep learning:
 https://www.youtube.com/watch?v=vT1JzLTH4G4&list=PLC1qU-LWwrF64f4QKQT-Vg5Wr4qEE1Zxk&index=1
 ff. 
+
+Note: To increase the amount of visible data in the console this line was added to Help -> CustomOptions
+idea.cycle.buffer.size=disabled
 
 

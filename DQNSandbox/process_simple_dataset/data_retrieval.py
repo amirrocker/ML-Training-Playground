@@ -11,7 +11,9 @@ from pandas.plotting import scatter_matrix
 from sklearn.model_selection import StratifiedShuffleSplit
 
 
-np.set_printoptions(threshold=20000, precision=5, suppress=False)
+# we could also use treshold=np.inf which makes the size of the array at which it is truncated to infinity.
+# see discussion: https://stackoverflow.com/questions/1987694/how-to-print-the-full-numpy-array-without-truncation
+np.set_printoptions(threshold=sys.maxsize, precision=5, suppress=False)
 
 # from web
 download_root = 'https://raw.githubusercontent.com/ageron/handson-ml/master/'
@@ -45,6 +47,14 @@ data = open_file(s_housing_path)
 # TODO uncomment to show histogramm
 # data.hist(bins=50, figsize=(20, 15))
 # plt.show()
+
+'''
+Note: we are going to access a lot of attributes many times.
+even though the file is not 'well structured' or programmed well
+it is preferable to access columns and attributes by string constants 
+'''
+OCEAN_PROXIMITY = "ocean_proximity"
+
 
 '''
 looking at the created histogramm there is a number of observations we can make: 
@@ -274,7 +284,7 @@ called an "Imputer". The imputer allows to replace a set of missing numbers.
 from sklearn.impute import SimpleImputer
 
 imputer = SimpleImputer(strategy="mean")  # also a strategy could be median
-housing_num_only = housing.drop("ocean_proximity", axis=1)
+housing_num_only = housing.drop(OCEAN_PROXIMITY, axis=1)
 imputer.fit(housing_num_only)
 
 print(imputer.statistics_)
@@ -299,7 +309,7 @@ Modify and process text and categorical attributes
 ocean_proximity was left out earlier since we cannot calculate a median value 
 from a categorical attribute.
 '''
-housing_cat = housing["ocean_proximity"]
+housing_cat = housing[OCEAN_PROXIMITY]
 print(housing_cat.head(10))
 
 
@@ -450,15 +460,66 @@ Index(['longitude', 'latitude', 'housing_median_age', 'total_rooms',
 # plt.show()
 
 ''' 
-A short excourse into Matplotlib
+A short excourse into Matplotlib - uncomment for plot drawing
 '''
-fig = plt.figure()
-axis = fig.add_subplot(111) # 111 = rows - cols - num
-axis.plot(housing_num_only["income_cat"], housing_num_only["median_income"], color="lightblue", linewidth=3)
+#fig = plt.figure()
+#axis = fig.add_subplot(111) # 111 = rows - cols - num
+#axis.scatter(housing_num_only["income_cat"], housing_num_only["median_income"], color="darkgreen", marker="^")
+#axis.plot(housing_num_only["income_cat"], housing_num_only["median_income"], color="lightblue", linewidth=3)
+#plt.show()
 
-axis.scatter(housing_num_only["income_cat"], housing_num_only["median_income"], color="lightblue", marker="^")
+### DataFrames
+'''
+It would be preferable to be able to pass in a dataframe instead of having to turn the data into a numpy array first.
+'''
 
-plt.show()
+from sklearn.base import BaseEstimator, TransformerMixin
+from sklearn.preprocessing import LabelBinarizer
+from sklearn.pipeline import FeatureUnion
+
+class DataFrameSelector(BaseEstimator, TransformerMixin):
+    def __init__(self, attribute_names):
+        self.attribute_names = attribute_names
+    def fit(self, X, y=None):
+        return self
+    def transform(self, X):
+        return X[self.attribute_names].values
+
+
+number_attributes = list(housing_num_only)
+category_attributes = [OCEAN_PROXIMITY]
+
+# create two necessary pipelines
+# one to prepare numerical the other categorical data
+numerical_pipeline = Pipeline([
+    ('selector', DataFrameSelector(number_attributes)),
+    ('imputer', SimpleImputer(strategy="median")),
+    ('attributes_adder', CombinedAttributesAdder()),
+    ('standard_scaler', StandardScaler())
+])
+
+categorical_pipeline = Pipeline([
+    ('selector', DataFrameSelector(category_attributes)),
+    ('label_binarizer', LabelBinarizer())
+])
+
+feature_pipeline = FeatureUnion(transformer_list=[
+    ('numerical', numerical_pipeline),
+    ('categorical', categorical_pipeline)
+])
+
+housing_data_prepared = feature_pipeline.fit_transform(housing_data_with_id)
+print("housing_data_prepared: ")
+print(housing_data_prepared)
+
+
+
+
+
+
+
+
+
 
 
 
