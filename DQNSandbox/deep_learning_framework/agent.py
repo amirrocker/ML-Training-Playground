@@ -3,7 +3,7 @@ import copy
 import numpy as np
 import torch.nn.functional as F
 
-from ptan_self.actions import ProbabilityActionSelector
+from deep_learning_framework.actions import ProbabilityActionSelector
 
 from qlearning.brain import DQN, ExperienceBuffer, Experience
 

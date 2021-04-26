@@ -1,4 +1,4 @@
-import ptan_self
+import deep_learning_framework
 import enum
 import time
 from typing import Optional
@@ -11,4 +11,5 @@ class EpisodeEvents(enum.Enum):
 
 
 class EndOfEpisodeHandler:
-    def __init__(self, exp_source: ptan_self.experience.ExperienceSource):
+    def __init__(self, exp_source: deep_learning_framework.experience.ExperienceSource):
+        print("End of episode handler called")

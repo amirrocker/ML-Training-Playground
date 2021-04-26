@@ -3,13 +3,7 @@ For more information on the gym environments --
 https://github.com/openai/universe/blob/master/doc/protocols.rst
 -------------------------------------------------------------------
 '''
-import gym
-import torch
-import random
-import collections
-from torch.autograd import variable
-import numpy as np
-from collections import namedtuple, deque
+
 from .agent import BaseAgent
 from .common import utils
 from .actions import *
