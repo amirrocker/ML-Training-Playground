@@ -1,16 +1,12 @@
 # DeepQLearning
 learning ground and play sandbox for Deep Q Learning models
 and ml. 
-This is a beginners playground to try stuff and play around with.
+This is a beginner's playground to try stuff and play around with.
 There is no serious project but simply a number of files that have 
 been adding up over time as I have been reading books and tutorials on the web.
 
 This repo is not structured, nor clean, 
-Therefor I will try to enforce order in this chaos over time.
-
-For anybody who may see this and feels like looking into these topics
-here are some of the sources that I have found very helpful on my short 
-journey so far. 
+But I will try to enforce order in this chaos over time.
 
 sources:
 
