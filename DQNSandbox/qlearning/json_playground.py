@@ -1,5 +1,3 @@
-import json
-
 '''
 a = {
     "name":"Tommy",
@@ -79,8 +77,7 @@ with FileClass("sample.txt", "r") as f_read:
 
 # mock models setup
 
-from pykson import JsonObject, IntegerField, StringField, ObjectListField, ListField, ObjectField, \
-    TimestampMillisecondsField
+from pykson import JsonObject, IntegerField, StringField, ObjectListField
 
 
 class Course(JsonObject):
@@ -112,12 +109,11 @@ student = Pykson().from_json(json_text, Student)
 print("student.age: %s and first_name: %s" % (student.age, student.first_name))
 print("student.score: %s and leen(scores): %s" % (student.scores, len(student.scores)))
 
-
 # second example - this time with domain models
 
 
-
-
+from domain_layer import TrainingSession, Training
+from runner import runSessions
 
 # mock_json = '{"id":"1234","createdAt":"2020-04-18","trainings":[{"id":"1","env":"env1","file":"file1","modelParams": {"model":"model1","optimizer":"optimizer1","loss":"loss1"},"log":{"log":"log1"},"hyperParameters":{"epochs":"epochs1","learningRate":"learningRate1"}}]}'
 
@@ -152,3 +148,19 @@ print(training_session.id)
 print(training_session.trainings[0].env)
 print(len(training_session.trainings))
 '''
+
+
+def decode(message):
+    print("callback")
+    # payload = message #request.get_json()
+    trainingSession = fromJSON(payload=message, clazz=TrainingSession)
+    print(trainingSession)
+
+
+def fromJSON(payload, clazz):
+    payload.strip(" \n\r\t")
+    training_session = Pykson().from_json(payload, clazz)
+    return training_session
+
+
+runSessions(fromJSON(mock_json, TrainingSession))

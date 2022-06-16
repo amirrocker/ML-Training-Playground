@@ -1,40 +1,31 @@
-import qlearning.DQNSandbox as sandbox
-from flask import Flask, request, jsonify
-from flask_restful import Resource, Api
+# import qlearning.DQNSandbox as sandbox
 
-import torch
-import qlearning.wrappers as wrappers
-
-
-from qlearning.brain import DQN, Experience, ExperienceBuffer
-from qlearning.agency import BasicAgent
-
-from torch.utils.tensorboard import SummaryWriter
-from torch.optim import Adam
-from qlearning.loss_functions import calc_loss
-import numpy as np
-
-import rx
 import multiprocessing
 import time
 from threading import current_thread
 
-from rx.scheduler import ThreadPoolScheduler
-from rx import operators as ops
-
+import numpy as np
 # from rx.core import Observer
 import requests
+import rx
+import torch
+from rx import operators as ops
+from rx.scheduler import ThreadPoolScheduler
+from torch.optim import Adam
+
+import wrappers as wrappers
+from agency import BasicAgent
+from brain import DQN, ExperienceBuffer
+from loss_functions import calc_loss
 
 # using pykson which should actually be pygson but well....
-from pykson import Pykson
-from qlearning.domain_layer import TrainingSession, Training, HyperParameter, Log, ModelParameter
 
-#from qlearning.MessageClient import sendMessageOnClient
+# from qlearning.MessageClient import sendMessageOnClient
 
 print("Runner runs .... ")
 
-app = Flask(__name__)
-api = Api(app)
+# app = Flask(__name__)
+# api = Api(app)
 
 ''' 
 def startTrainingProcess(observer, scheduler):
@@ -49,10 +40,10 @@ def startTrainingProcess(observer, scheduler):
 
 # multiprocessing
 
-def intense_calculation(value, callback): # TODO rename this asap
+def intense_calculation(value, connection):  # TODO rename the method
     print("starting sleep :: value: %s " % value)
     # time.sleep(random.randint(5, 20) )
-    doProcessing(callback)
+    # doProcessing(connection)
     print("intense calculcating .... ")
     return value
 
@@ -106,16 +97,7 @@ class Session:
         return self.payload
 
 sessions = []
-def createMockSessions(payload, size=4):
-    '''
-    for i in range(0, size):
-        session = Session(payload)
-        sessions.append(session)
-    '''
-    payload.strip(" \n\r\t")
 
-    training_session = Pykson().from_json(payload, TrainingSession)
-    return training_session
 
 '''
 Instead of using a route based approach where we would have to implement something
@@ -137,11 +119,11 @@ We removed the flask route annotation and added a message param
 which must be a json element containing the sessions to run.
 @TODO Add the sessions json to jms message 
 '''
-def runSessions(message, callback):
-    #payload = message #request.get_json()
-    trainingSession = createMockSessions(payload=message)
 
 
+def runSessions(trainingSession, connection):
+    # payload = message #request.get_json()
+    # trainingSession = createMockSessions(payload=message)
 
     '''
     we pass something like this: 
@@ -172,19 +154,19 @@ def runSessions(message, callback):
     which is deserialized into the corresponding classes.
     '''
 
-    #rx.of("training 1", "training 2").pipe(
-    rx.from_list(trainingSession.trainings).pipe(
-        ops.map(lambda s: intense_calculation(s, callback)),
+    rx.of("training 1", "training 2").pipe(
+        # rx.from_list(trainingSession.trainings).pipe(
+        ops.map(lambda s: intense_calculation(s, connection)),
         ops.subscribe_on(pool_scheduler)
     ).subscribe(
         on_next=lambda s: print("Process 1: {0} {1}".format(current_thread().name, s)),
         on_error=lambda e: print("Error e: {0}".format(e)),
         on_completed=lambda: print("Process 1 On Complete")
     )
-    #return jsonify({'quarks': payload})
+    # return jsonify({'quarks': payload})
 
 
-#Processing()
+# Processing()
 
 def callLog(msg):
     message = "msg: %s" % format(msg)
@@ -219,7 +201,7 @@ def doProcessing(callback):
     9. every N steps copy the weights from Q to Q' target
     '''
 
-    DEFAULT_ENV_NAME = "PongNoFrameskip-v4"
+    DEFAULT_ENV_NAME = "Pong-v0"
     GAMMA = 0.98  # used in bellmann equation
     EPSILON_START = 1.0
     EPSILON_FINAL = 0.1
@@ -233,15 +215,21 @@ def doProcessing(callback):
     REPLAY_START_SIZE = 5000
     MEAN_REWARD_BOUND = 19.5
 
+    LOG_TO_SUMMARY_WRITER = True
+
     env_name = DEFAULT_ENV_NAME  # could use argparse !
 
     cuda = "cuda"
     device = torch.device(cuda if cuda else "cpu")
-    #callLog("device: %s with type: %s is available: %s" % (device, device.type, torch.cuda.is_available()))
-    sendMessage("device: %s with type: %s is available: %s" % (device, device.type, torch.cuda.is_available()), callback)
+    # callLog("device: %s with type: %s is available: %s" % (device, device.type, torch.cuda.is_available()))
+    # sendMessage("device: %s with type: %s is available: %s" % (device, device.type, torch.cuda.is_available()), callback)
     env = wrappers.make_env(env_name)
     action = env.reset()
-    # writer = SummaryWriter()
+
+    if LOG_TO_SUMMARY_WRITER == True:
+        print("create the SummaryWriter")
+        from torch.utils.tensorboard import SummaryWriter
+        writer = SummaryWriter()
 
     # create out model networks
     net = DQN(env.observation_space.shape, env.action_space.n, device=device)
@@ -259,8 +247,8 @@ def doProcessing(callback):
     ts_frame = 0
     ts = time.time()
 
-    #callLog("starting training loop at: %s" % ts)
-    sendMessage("starting training loop at: %s" % ts, callback)
+    # callLog("starting training loop at: %s" % ts)
+    # sendMessage("starting training loop at: %s" % ts, callback)
 
     while True:
         # start the training loop
@@ -292,16 +280,18 @@ def doProcessing(callback):
             ))
             '''
 
-            sendMessage("Frames: %d, done: %d games, mean reward: %.3f, epsilon: %.2f, speed: %.2f fps" % (
-                frame_idx, len(total_rewards), mean_reward, epsilon, speed
-            ), callback)
+            # sendMessage("Frames: %d, done: %d games, mean reward: %.3f, epsilon: %.2f, speed: %.2f fps" % (
+            #    frame_idx, len(total_rewards), mean_reward, epsilon, speed
+            # ), callback)
 
-            # writer.add_scalar("epsilon", epsilon, frame_idx)
-            # writer.add_scalar("speed", speed, frame_idx)
-            # writer.add_scalar("mean_reward", mean_reward, frame_idx)
-            # writer.add_scalar("reward", reward, frame_idx)
+            if LOG_TO_SUMMARY_WRITER == True:
+                print("log to tensorboard")
+                writer.add_scalar("epsilon", epsilon, frame_idx)
+                writer.add_scalar("speed", speed, frame_idx)
+                writer.add_scalar("mean_reward", mean_reward, frame_idx)
+                writer.add_scalar("reward", reward, frame_idx)
 
-            # env.render(mode="human")
+            env.render(mode="human")
 
             '''
             everytime our mean_reward for the last 100 episodes reaches a max -best_mean_reward - we save the model
@@ -324,8 +314,10 @@ def doProcessing(callback):
         loss_t.backward()
         optimizer.step()
     print("Process Stopped ... ")
-    #writer.close()
+    # writer.close()
 
 
 if __name__ == "__main__":
-    app.run(port="5002", debug=True)
+    # app.run(port="5002", debug=True)
+    # TODO put FLask back in !
+    doProcessing(None)

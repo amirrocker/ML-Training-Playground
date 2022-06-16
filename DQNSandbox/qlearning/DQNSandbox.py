@@ -1,16 +1,13 @@
-import torch
-import collections
-import qlearning.wrappers as wrappers
-
-from qlearning.brain import DQN, Experience, ExperienceBuffer
-from qlearning.agency import BasicAgent
-
-#from torch.utils.tensorboard import SummaryWriter
-from torch.optim import Adam, SGD
 import time
-from qlearning.loss_functions import calc_loss
-import numpy as np
 
+import numpy as np
+import torch
+from torch.optim import SGD
+
+import wrappers as wrappers
+from agency import BasicAgent
+from brain import DQN, ExperienceBuffer
+from loss_functions import calc_loss
 
 '''
 1. Inititalize Q(s,a) with random weights, an epsilon value of 1.0 and 
@@ -42,7 +39,7 @@ REPLAY_SIZE = 10000
 REPLAY_START_SIZE = 1000
 MEAN_REWARD_BOUND = 19.5
 
-LOG_TO_SUMMARY_WRITER = True  # this flag is not yet decided on how to use it, for now is a bool but could be an Int as well....
+LOG_TO_SUMMARY_WRITER = True
 
 
 if __name__ == "__main__":
@@ -55,7 +52,12 @@ if __name__ == "__main__":
     print("device: %s with type: %s is available: %s" % (device, device.type, torch.cuda.is_available()))
     env = wrappers.make_env(env_name)
     action = env.reset()
-    #writer = SummaryWriter()
+
+    if LOG_TO_SUMMARY_WRITER == True:
+        print("create the SummaryWriter")
+        from torch.utils.tensorboard import SummaryWriter
+
+        writer = SummaryWriter()
 
     # create out model networks
     net = DQN(env.observation_space.shape, env.action_space.n, device=device)
@@ -92,7 +94,7 @@ if __name__ == "__main__":
             # add the received reward to the array
             total_rewards.append(reward)
             # calculate the speed in fps
-            speed = (frame_idx - ts_frame)/(time.time()-ts)
+            speed = (frame_idx - ts_frame) / (time.time() - ts)
             # update ts_frame and timestamp ts
             ts_frame = frame_idx
             ts = time.time()
@@ -102,10 +104,12 @@ if __name__ == "__main__":
                 frame_idx, len(total_rewards), mean_reward, epsilon, speed
             ))
 
-            #writer.add_scalar("epsilon", epsilon, frame_idx)
-            #writer.add_scalar("speed", speed, frame_idx)
-            #writer.add_scalar("mean_reward", mean_reward, frame_idx)
-            #writer.add_scalar("reward", reward, frame_idx)
+            if LOG_TO_SUMMARY_WRITER == True:
+                print("log to tensorboard")
+                writer.add_scalar("epsilon", epsilon, frame_idx)
+                writer.add_scalar("speed", speed, frame_idx)
+                writer.add_scalar("mean_reward", mean_reward, frame_idx)
+                writer.add_scalar("reward", reward, frame_idx)
 
             # env.render(mode="human")
 
@@ -113,7 +117,7 @@ if __name__ == "__main__":
             everytime our mean_reward for the last 100 episodes reaches a max -best_mean_reward - we save the model
             '''
             if best_mean_reward is None or best_mean_reward < mean_reward:
-                torch.save(net.state_dict(), env_name+"-best.dat")
+                torch.save(net.state_dict(), env_name + "-best.dat")
                 if best_mean_reward is not None:
                     print("best_mean_reward updated %.3f -> %.3f, model saved" % (best_mean_reward, mean_reward))
                 best_mean_reward = mean_reward

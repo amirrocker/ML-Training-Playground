@@ -1,7 +1,5 @@
-from pytz import utc
-from apscheduler.schedulers.blocking import BlockingScheduler
-from apscheduler.schedulers.background import BackgroundScheduler
 from apscheduler.executors.pool import ProcessPoolExecutor
+from apscheduler.schedulers.blocking import BlockingScheduler
 
 '''
 
@@ -26,11 +24,24 @@ def timed_job():
 # sched_method2.configure(gconfig=gconfig)
 '''
 
+
 def my_job():
     print("Hello Background Job .... ")
 
-scheduler = BackgroundScheduler()
+
+executors = {
+    'default': {'type': 'threadpool', 'max_workers': 20},
+    'processpool': ProcessPoolExecutor(max_workers=5)
+}
+job_defaults = {
+    'coalesce': False,
+    'max_instances': 3
+}
+
+scheduler = BlockingScheduler()
+
+scheduler.scheduled_job(my_job, 'interval', seconds=0.5)
+
 scheduler.start()
-scheduler.add_job(my_job, 'interval', seconds=130)
 
-
+print("sdjldsfkjds")

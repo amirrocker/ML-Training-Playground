@@ -1,7 +1,9 @@
+import numpy as np
 import torch
 import torch.nn as nn
-import numpy as np
-from qlearning.brain import ExperienceBuffer, Experience, DQN
+
+from brain import Experience
+
 
 class BasicAgent(nn.Module):
     def __init__(self, env, experience_buffer):

@@ -18,6 +18,7 @@ class ModelParameter(JsonObject):
 
 class Training(JsonObject):
     id = StringField()
+    version = StringField()
     env = StringField()
     file = StringField()
     modelParams = ModelParameter()
@@ -27,6 +28,6 @@ class Training(JsonObject):
 
 class TrainingSession(JsonObject):
     id = StringField()
-    trainingID = StringField()
+    version = StringField()
     createdAt = StringField()
     trainings = ObjectListField(Training)

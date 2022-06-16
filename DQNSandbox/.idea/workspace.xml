@@ -1,5 +1,53 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="6cbd9419-852c-46e4-9d77-703880d6e043" name="Default Changelist" comment="A very simple first version of a autorun framework where currently a terminal command - first version calls python 'filename'.py - in order to run it in a separate container.&#10;Also a freshen up of neural network concepts to get back in after I was not able to really look into it for quite some time now.">
+      <change afterPath="$PROJECT_DIR$/.idea/DQNSandbox.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/qlearning/ModelFileExecutor.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/qlearning/TestDynamicExec.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/qlearning/TestDynamicLoading.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/qlearning/TestSessionProcessor.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/qlearning/runner_class.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../NNFromScratch/scratchpad/NeuralNet.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../NNFromScratch/scratchpad/google_codelab_course_1.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../NNFromScratch/scratchpad/google_codelab_course_2.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../NNFromScratch/scratchpad/use_cifar10_as_dataset.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../NNFromScratch/sp500/sp500_equal_weight_index_fund.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/qlearning/DQNSandbox.py" beforeDir="false" afterPath="$PROJECT_DIR$/qlearning/DQNSandbox.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/qlearning/MessageClient.py" beforeDir="false" afterPath="$PROJECT_DIR$/qlearning/MessageClient.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/qlearning/agency.py" beforeDir="false" afterPath="$PROJECT_DIR$/qlearning/agency.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/qlearning/domain_layer.py" beforeDir="false" afterPath="$PROJECT_DIR$/qlearning/domain_layer.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/qlearning/json_playground.py" beforeDir="false" afterPath="$PROJECT_DIR$/qlearning/json_playground.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/qlearning/runner.py" beforeDir="false" afterPath="$PROJECT_DIR$/qlearning/runner.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/qlearning/scheduler.py" beforeDir="false" afterPath="$PROJECT_DIR$/qlearning/scheduler.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../NNFromScratch/scratchpad/data_creation.py" beforeDir="false" afterPath="$PROJECT_DIR$/../NNFromScratch/scratchpad/data_creation.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../NNFromScratch/scratchpad/playground.py" beforeDir="false" afterPath="$PROJECT_DIR$/../NNFromScratch/scratchpad/playground.py" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Freeze Requirements File" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="ProjectId" id="1riszNwm5drzzBXvtvyjGHRi2pC" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="autoscrollFromSource" value="true" />
     <option name="autoscrollToSource" value="true" />
@@ -7,6 +55,68 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="settings.editor.selected.configurable" value="preferences.fileTypes" />
+  </component>
+  <component name="RunManager">
+    <configuration name="QLearning_frozenLake" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="DQNSandbox" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="C:\Users\info\Anaconda3\envs\datascience\python.exe" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/deeq_q_learning" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/deeq_q_learning/QLearning_frozenLake.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Python.QLearning_frozenLake" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="6cbd9419-852c-46e4-9d77-703880d6e043" name="Default Changelist" comment="" />
+      <created>1619470506475</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1619470506475</updated>
+    </task>
+    <task id="LOCAL-00001" summary="A very simple first version of a autorun framework where currently a terminal command - first version calls python 'filename'.py - in order to run it in a separate container.&#10;Also a freshen up of neural network concepts to get back in after I was not able to really look into it for quite some time now.">
+      <created>1619470957854</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1619470957854</updated>
+    </task>
+    <task id="LOCAL-00002" summary="a first sketch of a ptan like framework in python.">
+      <created>1619471581912</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1619471581912</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
+    <servers />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="A very simple first version of a autorun framework where currently a terminal command - first version calls python 'filename'.py - in order to run it in a separate container.&#10;Also a freshen up of neural network concepts to get back in after I was not able to really look into it for quite some time now." />
+    <MESSAGE value="a first sketch of a ptan like framework in python." />
+    <option name="LAST_COMMIT_MESSAGE" value="a first sketch of a ptan like framework in python." />
   </component>
 </project>

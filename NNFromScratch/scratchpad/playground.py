@@ -84,17 +84,72 @@ dotResult = np.dot(weights, inputs) + biases
 print("dotResult: {}".format(dotResult))
 
 # or manually:
-manual_output = [((weights[0][0] * inputs[0])+(weights[0][1] * inputs[1]) + (weights[0][2] * inputs[2]) + (weights[0][3] * inputs[3]))+biases[0],
-                 ((weights[1][0] * inputs[0])+(weights[1][1] * inputs[1]) + (weights[1][2] * inputs[2]) + (weights[1][3] * inputs[3]))+biases[1],
-                 ((weights[2][0] * inputs[0])+(weights[2][1] * inputs[1]) + (weights[2][2] * inputs[2]) + (weights[2][3] * inputs[3]))+biases[2]
-          ]
+manual_output = [((weights[0][0] * inputs[0]) + (weights[0][1] * inputs[1]) + (weights[0][2] * inputs[2]) + (
+        weights[0][3] * inputs[3])) + biases[0],
+                 ((weights[1][0] * inputs[0]) + (weights[1][1] * inputs[1]) + (weights[1][2] * inputs[2]) + (
+                         weights[1][3] * inputs[3])) + biases[1],
+                 ((weights[2][0] * inputs[0]) + (weights[2][1] * inputs[1]) + (weights[2][2] * inputs[2]) + (
+                         weights[2][3] * inputs[3])) + biases[2]
+                 ]
 print("manual_output: {}".format(manual_output))
 
 '''
 short look at random:
 '''
-print(np.random.randn(4, 3))
+matrix_4x3 = np.random.randn(4, 3)
+print("matrix_4x3: %s" % matrix_4x3)
 
 # create an empty matrix
-print(np.zeros((1,4)))
+print(np.zeros((1, 4)))
 
+'''
+since we will be using a number of numpy features and my numpy fitness is a bit like my regular fitness, never good enough :)
+let's take a short look at indexing in numpy
+'''
+random_matrix = np.random.rand(2, 3)
+print("random_matrix: %s" % random_matrix)
+
+zeros = np.zeros((2, 3))
+print("zeros: %s" % zeros)
+
+# slicing and dicing those babies
+sliced_to_cubes = random_matrix[:, 2]
+print("sliced_to_cubes: %s" % sliced_to_cubes)
+
+sliced_to_slices = matrix_4x3[1:2, :]
+print("sliced_to_slices: %s" % sliced_to_slices)
+
+sliced_to_reverse = matrix_4x3[::-2, ::-1]
+print("sliced_to_reverse: %s" % sliced_to_reverse)
+
+sliced_to_keep_shape = matrix_4x3[:, [1]]  # all rows, one column
+print("sliced_to_keep_shape: %s" % sliced_to_keep_shape)
+
+# TODO I have to look this up to make sure this is correct
+sliced_to_odd_numbers = matrix_4x3[:, 0:3:2]
+print("sliced_to_odd_numbers: %s" % sliced_to_odd_numbers)
+
+# to preserve dimensionality also possible
+sliced_to_keep_shape_too = matrix_4x3[:, np.newaxis, :]
+print("sliced_to_keep_shape_too: %s" % sliced_to_keep_shape_too)
+
+from numpy.random import randn
+
+# okay - lets create some more random data
+array_one = np.array(randn(3, 3, 3) * 10, dtype=np.int64)
+array_two = np.array(randn(3, 3, 3) * 10, dtype=np.int64)
+print("array_one: %s" % array_one)
+print("array_two: %s" % array_two)
+
+'''
+Pandas - no not the cuddly animals - but the python data management library.
+
+lets start with a regular DataFrame, the main type of pandas along with Series.
+'''
+import pandas as pd
+
+dataFrame = pd.DataFrame(np.random.randn(7, 3) * 10,
+                         columns=["aaa", "bbb", "ccc"],
+                         index=list("agbfced")
+                         )
+print("pandas dataFrame: %s" % dataFrame)
