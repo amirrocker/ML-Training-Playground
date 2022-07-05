@@ -103,7 +103,6 @@ print("matrix_4x3: %s" % matrix_4x3)
 print(np.zeros((1, 4)))
 
 '''
-since we will be using a number of numpy features and my numpy fitness is a bit like my regular fitness, never good enough :)
 let's take a short look at indexing in numpy
 '''
 random_matrix = np.random.rand(2, 3)
