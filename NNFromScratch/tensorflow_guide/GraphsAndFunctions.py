@@ -6,14 +6,13 @@
 
 import tensorflow as tf
 
-
 # def a regular python func
 def a_regular_function(x, y, b):
     x = tf.matmul(x, y)
     x = x + b
     return x
 
-
+# convert the regular python function into a graph based tf function.
 func_to_use_a_tf_graph = tf.function(a_regular_function)
 
 # create some data, pref. tensors
@@ -29,20 +28,17 @@ print(tf_function_value)
 
 assert orig_function_value == tf_function_value
 
-
 # above code could also be using a outside Tf.Function like so:
 def innerFunc(x, y, b):
     x = tf.matmul(x, y)
     x = x + b
     return x
 
-
 @tf.function
 def outerFunc(x):
     y = tf.constant([[2.0], [3.0]])
     b = tf.constant(4.0)
     return innerFunc(x, y, b)
-
 
 result = outerFunc(tf.constant([[1.0, 2.0]])).numpy()
 print(result)
@@ -142,4 +138,7 @@ https://www.tensorflow.org/guide/intro_to_graphs
 # Best Practices
 # https://www.tensorflow.org/guide/intro_to_graphs#tffunction_best_practices
 
-TBD!
+# toggle between eager execution <-> graph execution. Also use the config flag "tf.config.run_functions_eagerly" to switch
+# between the two and find points of divergence.
+
+# create tf.Variables outside and modify them inside the Python function.
