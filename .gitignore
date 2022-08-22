@@ -117,3 +117,8 @@ venv.bak/
 /.idea/shelf/
 /DQNSandbox/process_simple_dataset/datasets/housing/housing.csv
 /DQNSandbox/process_simple_dataset/datasets/housing/housing.tgz
+/NNFromScratch/RL_studies/B16_P70/
+/NNFromScratch/RL_studies/logdir/
+/NNFromScratch/RL_studies/logdir_BatchSize_16_Percentile_60/
+/NNFromScratch/RL_studies/logdir_BatchSize_16_Percentile_70/
+/NNFromScratch/RL_studies/logs/
