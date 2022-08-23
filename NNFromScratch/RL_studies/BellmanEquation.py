@@ -41,7 +41,14 @@ Imagine our agent observes state s0 and has N available actions. Every action le
 Each state has a corresponding reward v1-vN. We also assume to know all the values, Vi, of all states connected
 to s0.
 
+Choosing an action ai and calculate the value given for this action, then the value is calculated like
+Vs0(a|A)=max(sum(ri+Vi))
 
+with discount factor:
+Vs0(a|A)=max(sum(ri+(GAMMA**t)+Vi))
+
+This looks a bit similar to previous cross-entropy impl. where we also have a 'greedy' agent.
+But the bellmann equation has a significant distinction.
 
 
 '''
