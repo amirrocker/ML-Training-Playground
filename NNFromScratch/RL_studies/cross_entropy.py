@@ -33,14 +33,18 @@ from collections import namedtuple
 
 import gym
 import numpy as np
+import tensorflow as tf
 import torch
 from tensorboardX import SummaryWriter
 from torch.nn import Sequential, Linear, ReLU, Module, Softmax, CrossEntropyLoss
 
 from NNFromScratch.RL_studies.DiscreteWrapper import DiscreteOneHotWrapper
 
-# suppress scientific notation
+logdir = "logs"
 
+tf.debugging.experimental.enable_dump_debug_info(logdir, tensor_debug_mode="FULL_HEALTH", circular_buffer_size=-1)
+
+# suppress scientific notation
 np.set_printoptions(suppress=True)
 
 '''

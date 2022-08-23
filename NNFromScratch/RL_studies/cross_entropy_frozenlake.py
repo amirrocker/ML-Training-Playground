@@ -37,9 +37,14 @@ LEARNING_RATE = 0.01
 '''
 This shows the limitations of cross-entropy as a model. It works well for the simple 
 left-right cart-pole system. But in FrozenLake, which does have a different reward system, 
-cross-entropy cannot converge. Even with some more advanced techniques, such as looking 
-into future rewards, the model does not learn the episodes well.
-Maybe some more tweaking of hyper-params may help. 
+cross-entropy cannot converge. Even with some more advanced techniques, such as 
+looking into future rewards, 
+keeping elite episodes and 
+adding a discount factor GAMMA, 
+the model does not learn the episodes well.
+Maybe some more tweaking of hyper-params may help but also to reach at least 50% successfull episodes at least 5K of iterations are necessary since
+successfull episodes are quite rare and must be used longer than when using them for cartPole.
+ 
 '''
 
 
