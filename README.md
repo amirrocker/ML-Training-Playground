@@ -18,13 +18,8 @@ Deep learning:
 https://www.youtube.com/watch?v=vT1JzLTH4G4&list=PLC1qU-LWwrF64f4QKQT-Vg5Wr4qEE1Zxk&index=1
 ff. 
 
-Note: To increase the amount of visible data in the console this line was added to Help -> CustomOptions
+Note: To increase the amount of visible data in the console this line was added to 
+
+Help -> CustomOptions
 idea.cycle.buffer.size=disabled
 
-
-learning ground and play sandbox for python and machine learning.
-This is a repository that is quite unorganized and wip still. 
-A number of ideas and concepts are wildly thrown together with 
-a sizable amount of digital garbage ):O 
-A want to find some time soon to clean up this repo and sharpen the
-focus of it :) 
