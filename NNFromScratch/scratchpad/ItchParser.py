@@ -10,16 +10,20 @@ import pandas as pd
 from pathlib import Path
 from urllib.request import urlretrieve
 from urllib.parse import urljoin
+
 # from clint.textui import progress
 
 
-data_path = Path('data') # choose a good path!
-itch_store = str(data_path / 'itch.h5') # stored as hdf format (HDF5)
+data_path = Path('data')  # choose a good path!
+itch_store = str(data_path / 'itch.h5')  # stored as hdf format (HDF5)
 order_book_store = data_path / 'order_book.h5'
 
 # now download the data
-FTP_URL = "ftp://emi.nasdaq.com/ITCH/Nasdaq_ITCH/"
-SOURCE_FILE = '03272021.NASDAQ_ITCH50.gz'
+FTP_URL = "ftp://emi.nasdaq.com/ITCH/Nasdaq ITCH/"
+HTTPS_URL = "https://emi.nasdaq.com/ITCH/Nasdaq%20ITCH/"
+# SOURCE_FILE = '03272021.NASDAQ_ITCH50.gz'
+SOURCE_FILE = '12282018.NASDAQ_ITCH50.gz'
+
 
 def try_download(url):
     print("try download started ... ")
@@ -31,7 +35,12 @@ def try_download(url):
         data_path.mkdir()
     if not filename.exists():
         print("downloading....", url)
-        urlretrieve(url, filename)
+        urlretrieve(url, filename, reporthook=download_progress_hook)
+
+
+def download_progress_hook(count, blockSize, totalSize):
+    print(f'downloaded: {count/1024} MB , loading: {blockSize/1024} KB, totalSize: {totalSize/1024/1024} MB')
+
 
 '''
 
@@ -84,8 +93,7 @@ def format_alpha(mtype, data):
 
 if __name__ == "__main__":
     print("main called")
-    file_name = try_download(urljoin(FTP_URL, SOURCE_FILE))
-    date = file_name.name.split('.')[0]
-    print(date)
-    print(file_name)
-
+file_name = try_download(urljoin(HTTPS_URL, SOURCE_FILE))
+date = file_name.name.split('.')[0]
+print(date)
+print(file_name)

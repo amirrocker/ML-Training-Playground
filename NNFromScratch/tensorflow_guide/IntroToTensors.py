@@ -8,27 +8,28 @@ Focus will be on indexing, especially multi-axis indexing.
 import numpy as np
 import tensorflow as tf
 
+
 '''
 lets create a number of tensors
 and start with a single Scalar, a Constant
 rank-0-tensor
 '''
-tensor_0_rank_0 = tf.constant(4)
-tensor_0_rank_1 = tf.constant(2.0)
-print(tensor_0_rank_0)  # what dtype is this constant ?
-print(tensor_0_rank_1)  # what dtype is this constant ?
+tensor0_of_rank_0 = tf.constant(4)
+tensor1_of_rank_0 = tf.constant(2.0)
+print(tensor0_of_rank_0)  # what dtype is this constant ?
+print(tensor1_of_rank_0)  # what dtype is this constant ?
 
 # a rank_1 tensor
-tensor_1_rank_0 = tf.constant([2.0, 3.4, 1.8, 0.23563123], dtype=tf.float32)
-print(tensor_1_rank_0)
+tensor0_of_rank_1 = tf.constant([2.0, 3.4, 1.8, 0.23563123], dtype=tf.float32)
+print(tensor0_of_rank_1)
 
 # a rank_2 tensor
-tensor_2_rank_0 = tf.constant([
+tensor0_of_rank_2 = tf.constant([
     [1, 2],
     [3, 4],
     [5, 6],
 ])
-print(tensor_2_rank_0)
+print(tensor0_of_rank_2)
 
 '''
 tensors are built like so:
@@ -115,3 +116,15 @@ print(a_times_b)
 # a_matmul_b = tf.matmul(a, b)
 # print("a matmul b: ")
 # print(a_matmul_b)
+
+# Variables
+'''
+A variable is the recommended way to represent shared, persistent state the program manipulates.
+(see: https://www.tensorflow.org/guide/variable )
+'''
+# a variable from existing tensor
+a_variable = tf.Variable(tensor0_of_rank_0)
+
+# b variable with tensor initialization
+b_variable = tf.Variable([False, True, None, False, False, True])
+print("b_variable: ", b_variable)
