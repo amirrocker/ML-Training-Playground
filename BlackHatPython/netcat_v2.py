@@ -29,6 +29,43 @@ class NetCat:
         else:
             self.send()
 
+    def send(self):
+        self.socket.connect((self.args.target, self.args.port))
+        if self.buffer:
+            self.socket.send(self.buffer)
+
+        try:
+            while True:
+                recv_len = 1
+                response = ''
+                while recv_len:
+                    data = self.socket.recv(4096)
+                    print("send - while recv_len => data: %s" % data)
+                    recv_len = len(data)
+                    response += data.decode()
+                    print("send - while recv_len => response: %s" % response)
+                    if recv_len > 4096:
+                        print("received more data than 4096 bytes")
+                        break
+                    if response:
+                        print("final response: %s" % response)
+                        buffer = input('> ')
+                        buffer += '\n'
+                        self.socket.send(buffer.encode())
+        except KeyboardInterrupt:
+            print("User terminated.")
+            self.socket.close()
+            sys.exit()
+
+    def listen(self):
+        self.socket.bind((self.args.target, self.args.port))
+        self.socket.listen()
+
+        while True:
+            client_socket, _ = self.socket.accept()
+            client_thread = threading.Thread(target=self.handle, args=(client_socket, ))
+            client_thread.start()
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
         description='Black Hat Python Net Tool',
